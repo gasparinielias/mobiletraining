@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Lector de Reddit</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Contraseña (opcional)</string>
+    <string name="action_sign_in">Acceder o registrarse</string>
+    <string name="action_sign_in_short">Acceder</string>
+    <string name="action_sign_out">Salir</string>
+    <string name="error_invalid_email">El email es inválido</string>
+    <string name="error_invalid_password">La contraseña es demasiado corta</string>
+    <string name="error_incorrect_password">La contraseña es incorrecta</string>
+    <string name="error_field_required">Campo requerido</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <string name="title_reddit_reader">"Lector de Reddit"
+    </string>
+
+</resources>
