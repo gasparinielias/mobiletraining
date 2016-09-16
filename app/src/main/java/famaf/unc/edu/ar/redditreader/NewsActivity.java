@@ -50,10 +50,13 @@ public class NewsActivity extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     String useremail = data.getStringExtra("useremail");
 
+                    /*
                     TextView textView = (TextView) findViewById(famaf.unc.edu.ar.redditreader.R.id.loginStatusTextView);
+
                     if (useremail != null) {
                         textView.setText("User " + useremail + " logged in");
                     }
+                    */
                 }
                 break;
         }
