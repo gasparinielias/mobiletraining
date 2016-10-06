@@ -39,7 +39,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater view = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = view.inflate(R.layout.post_row, parent);
+            convertView = view.inflate(R.layout.post_row, null);
         }
 
         PostModel post = mListPostModel.get(position);
@@ -52,7 +52,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         title.setText(post.getTitle());
         content.setText(post.getContent());
         subreddit .setText(post.getSubreddit());
-        comments.setText(post.getComments());
+        comments.setText(String.valueOf(post.getComments()));
         postDate.setText(post.getPostDate());
 
         return convertView;
