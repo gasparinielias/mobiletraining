@@ -29,60 +29,11 @@
     android:paddingLeft="20dp"
     android:paddingTop="20dp">
 
-    <ImageView
-        android:id="@+id/fragment_appicon"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignParentLeft="true"
-        android:src="@mipmap/ic_launcher" />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/posts_list_view">
 
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/fragment_appicon"
-        android:text="r/todayilearned" />
+    </ListView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="11dp"
-        android:layout_toRightOf="@id/username"
-        android:text="Hace 4h" />
-
-    <TextView
-        android:id="@+id/usermessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/username"
-        android:layout_marginBottom="7dp"
-        android:layout_toRightOf="@+id/fragment_appicon"
-        android:maxWidth="150dp"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec" />
-
-    <ImageView
-        android:id="@+id/comments_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/usermessage"
-        android:layout_toRightOf="@+id/fragment_appicon"
-        android:src="@android:drawable/sym_action_chat" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/usermessage"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@+id/comments_icon"
-        android:text="1234 comments" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/username"
-        android:layout_marginTop="8dp"
-        android:layout_toRightOf="@id/usermessage"
-        android:src="@android:drawable/ic_media_play" />
 </RelativeLayout>
