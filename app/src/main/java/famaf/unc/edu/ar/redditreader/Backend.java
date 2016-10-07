@@ -17,10 +17,20 @@ public class Backend {
     private Backend() {
         mListPostModel = new ArrayList<>();
         PostModel p1 = new PostModel("title1", "content1", "subreddit1", 50, "01/01/1999");
-        PostModel p2 = new PostModel("title2", "content2", "subreddit2", 40, "02/01/1999");
-        PostModel p3 = new PostModel("title3", "content3", "subreddit3", 30, "03/01/1999");
-        PostModel p4 = new PostModel("title4", "content4", "subreddit4", 20, "04/01/1999");
-        PostModel p5 = new PostModel("title5", "content5", "subreddit5", 10, "05/01/1999");
+        PostModel p2 = new PostModel("title2", "content2", "subreddit2", 1, "02/01/1999");
+        PostModel p3 = new PostModel("title3", "content3", "subreddit3", 33, "03/01/1999");
+        PostModel p4 = new PostModel("title4", "content4", "subreddit4", 0, "04/01/1999");
+        PostModel p5 = new PostModel("title5", "content5", "subreddit5", 1234, "05/01/1999");
+        mListPostModel.add(p1);
+        mListPostModel.add(p2);
+        mListPostModel.add(p3);
+        mListPostModel.add(p4);
+        mListPostModel.add(p5);
+        mListPostModel.add(p1);
+        mListPostModel.add(p2);
+        mListPostModel.add(p3);
+        mListPostModel.add(p4);
+        mListPostModel.add(p5);
         mListPostModel.add(p1);
         mListPostModel.add(p2);
         mListPostModel.add(p3);

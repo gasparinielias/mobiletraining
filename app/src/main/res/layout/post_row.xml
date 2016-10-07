@@ -1,50 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingBottom="5dp">
 
     <ImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:id="@+id/postimage">
+        android:id="@+id/imagepreview"
+        android:background="@mipmap/ic_launcher"/>
 
-    </ImageView>
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/postsubreddit"
+        android:layout_toRightOf="@id/imagepreview"
+        android:layout_alignTop="@id/imagepreview"/>
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/postdate"
+        android:layout_toRightOf="@id/postsubreddit"
+        android:layout_alignTop="@id/imagepreview"
+        android:layout_marginLeft="20dp"/>
 
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/posttitle"
-        android:layout_toRightOf="@id/postimage"
-        android:layout_alignTop="@id/postimage"/>
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toRightOf="@id/imagepreview"
+        android:layout_below="@id/postsubreddit"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:id="@+id/commentsicon"
+        android:layout_below="@id/posttitle"
+        android:layout_toRightOf="@id/imagepreview"
+        android:background="@android:drawable/sym_action_chat"/>
 
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/postcontent"
-        android:layout_toRightOf="@id/postimage"
-        android:layout_marginLeft="10dp"
+        android:id="@+id/postcomments"
+        android:layout_toRightOf="@id/commentsicon"
         android:layout_below="@id/posttitle"/>
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/postsubreddit" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/postcomments" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/postdate" />
 
 </RelativeLayout>

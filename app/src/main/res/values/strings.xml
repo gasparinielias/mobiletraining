@@ -14,7 +14,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-
+    <plurals name="comments">
+        <item quantity="one">1 comment.</item>
+        <item quantity="other">%d comments.</item>
+    </plurals>
     <string name="title_reddit_reader">"Reddit Reader"
     </string>
 

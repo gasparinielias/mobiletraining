@@ -5,14 +5,12 @@ package famaf.unc.edu.ar.redditreader;
  */
 public class PostModel {
     private String mTitle;
-    private String mContent;
     private String mSubreddit;
     private int mComments;
     private String mPostDate;
 
     public PostModel(String mTitle, String mContent, String mSubreddit, int mComments, String mPostDate) {
         this.mTitle = mTitle;
-        this.mContent = mContent;
         this.mSubreddit = mSubreddit;
         this.mComments = mComments;
         this.mPostDate = mPostDate;
@@ -24,14 +22,6 @@ public class PostModel {
 
     public void setTitle(String title) {
         this.mTitle = title;
-    }
-
-    public String getContent() {
-        return mContent;
-    }
-
-    public void setContent(String content) {
-        this.mContent = content;
     }
 
     public String getSubreddit() {
