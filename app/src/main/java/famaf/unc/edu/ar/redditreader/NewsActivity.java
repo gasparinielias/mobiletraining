@@ -1,6 +1,7 @@
 package famaf.unc.edu.ar.redditreader;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.content.Intent;
+import android.widget.Toast;
 
 public class NewsActivity extends AppCompatActivity {
     static final int LOG_IN_REQUEST = 1;
@@ -57,6 +59,10 @@ public class NewsActivity extends AppCompatActivity {
                         textView.setText("User " + useremail + " logged in");
                     }
                     */
+                } else {
+                    Context context = getApplicationContext();
+                    Toast.makeText(context, context.getResources().getString(R.string.login_error),
+                            Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

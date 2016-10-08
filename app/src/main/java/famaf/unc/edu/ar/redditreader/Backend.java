@@ -26,16 +26,6 @@ public class Backend {
         mListPostModel.add(p3);
         mListPostModel.add(p4);
         mListPostModel.add(p5);
-        mListPostModel.add(p1);
-        mListPostModel.add(p2);
-        mListPostModel.add(p3);
-        mListPostModel.add(p4);
-        mListPostModel.add(p5);
-        mListPostModel.add(p1);
-        mListPostModel.add(p2);
-        mListPostModel.add(p3);
-        mListPostModel.add(p4);
-        mListPostModel.add(p5);
     }
 
     public List<PostModel> getTopPosts() {
