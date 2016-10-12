@@ -1,5 +1,7 @@
 package famaf.unc.edu.ar.redditreader;
 
+import java.net.URL;
+
 /**
  * Created by mono on 02/10/16.
  */
@@ -8,12 +10,14 @@ public class PostModel {
     private String mSubreddit;
     private int mComments;
     private String mPostDate;
+    private String mImageURL;
 
-    public PostModel(String mTitle, String mContent, String mSubreddit, int mComments, String mPostDate) {
+    public PostModel(String mTitle, String mContent, String mSubreddit, int mComments, String mPostDate, String mImageURL) {
         this.mTitle = mTitle;
         this.mSubreddit = mSubreddit;
         this.mComments = mComments;
         this.mPostDate = mPostDate;
+        this.mImageURL = mImageURL;
     }
 
     public String getTitle() {
@@ -46,5 +50,13 @@ public class PostModel {
 
     public void setPostDate(String postDate) {
         this.mPostDate = postDate;
+    }
+
+    public String getImageURL() {
+        return mImageURL;
+    }
+
+    public void setImageURL(String mImageURL) {
+        this.mImageURL = mImageURL;
     }
 }
