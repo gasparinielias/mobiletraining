@@ -50,11 +50,12 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
         if (convertView == null) {
             LayoutInflater view = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = view.inflate(R.layout.post_row, null);
-
+        }
+        if (convertView.getTag()== null) {
             holder = new ViewHolder();
             holder.title = ((TextView) convertView.findViewById(R.id.posttitle));
             holder.subreddit = ((TextView) convertView.findViewById(R.id.postsubreddit));
@@ -76,13 +77,18 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         holder.postDate.setText(post.getPostDate());
         URL[] urlArr = new URL[1];
         try {
-            urlArr[0] = new URL(post.getImageURL().toString());
+            urlArr[0] = new URL(post.getImageURL());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
-        // Falla
-        //new DownloadImageAsyncTask(holder.imageView).execute(urlArr);
+        new DownloadImageAsyncTask() {
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                // TODO Check convertView position
+                holder.imageView.setImageBitmap(bitmap);
+            }
+        }.execute(urlArr);
 
         return convertView;
     }
@@ -101,12 +107,6 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
     }
 
     protected class DownloadImageAsyncTask extends AsyncTask<URL, Integer, Bitmap> {
-        ImageView imageViewToSet;
-
-        public DownloadImageAsyncTask(ImageView iv) {
-            super();
-            imageViewToSet = iv;
-        }
 
         @Override
         protected Bitmap doInBackground(URL... params) {
@@ -114,7 +114,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             Bitmap bitmap = null;
             HttpURLConnection connection = null;
 
-            // Checkear network info?
+            // Check network info?
             try {
                 connection = (HttpURLConnection) url.openConnection();
                 InputStream is = connection.getInputStream();
@@ -128,19 +128,6 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             return bitmap;
         }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
 
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            imageViewToSet.setImageBitmap(bitmap);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-        }
     }
 }
