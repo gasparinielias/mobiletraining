@@ -7,10 +7,20 @@
     android:paddingRight="18dp">
 
     <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="@dimen/postimagedimen"
+        android:layout_height="@dimen/postimagedimen"
         android:id="@+id/postimage"
-        android:background="@mipmap/ic_launcher"/>
+        android:padding="3dp">
+    </ImageView>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="@dimen/postimagedimen"
+        android:layout_height="@dimen/postimagedimen"
+        android:layout_alignTop="@id/postimage"
+        android:layout_alignLeft="@id/postimage"
+        style="@android:style/Widget.ProgressBar"
+        />
 
     <TextView
         android:text="TextView"
