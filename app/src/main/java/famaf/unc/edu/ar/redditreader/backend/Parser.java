@@ -23,7 +23,7 @@ public class Parser {
         mIs = is;
     }
 
-    public List<PostModel> readJsonStream() throws IOException {
+    public Listing readJsonStream() throws IOException {
         JsonReader reader = new JsonReader(new InputStreamReader(mIs, "UTF-8"));
         try {
             return readListing(reader);
@@ -32,8 +32,8 @@ public class Parser {
         }
     }
 
-    public List<PostModel> readListing(JsonReader reader) throws IOException {
-        List<PostModel> list = null;
+    public Listing readListing(JsonReader reader) throws IOException {
+        Listing list = null;
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
@@ -47,20 +47,30 @@ public class Parser {
         return list;
     }
 
-    public List<PostModel> readListingData(JsonReader reader) throws IOException {
-        List<PostModel> list = null;
+    public Listing readListingData(JsonReader reader) throws IOException {
+        String modhash = "";
+        List<PostModel> listPostModel = null;
+        String after = "";
+        String before = "";
+
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("children")) {
-                list = readChildren(reader);
+            if (name.equals("modhash")) {
+                modhash = reader.nextString();
+            } else if (name.equals("children")) {
+                listPostModel = readChildren(reader);
+            } else if (name.equals("after")) {
+                after = reader.nextString();
+            } else if (name.equals("before")) {
+                before = reader.nextString();
             } else {
                 reader.skipValue();
             }
         }
         reader.endObject();
-        return list;
 
+        return new Listing(modhash, listPostModel, after, before);
     }
 
     public List<PostModel> readChildren(JsonReader reader) throws IOException {
@@ -89,8 +99,8 @@ public class Parser {
                 subreddit = "/r/" + reader.nextString();
             } else if (name.equals("num_comments")) {
                 comments = reader.nextInt();
-            } else if (name.equals("")) {
-
+            } else if (name.equals("created_utc")) {
+                postDate = String.valueOf(reader.nextLong());
             } else {
                 reader.skipValue();
             }
