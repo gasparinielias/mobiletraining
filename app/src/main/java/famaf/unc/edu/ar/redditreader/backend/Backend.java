@@ -1,9 +1,9 @@
-package famaf.unc.edu.ar.redditreader;
+package famaf.unc.edu.ar.redditreader.backend;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import famaf.unc.edu.ar.redditreader.PostModel;
 
 /**
  * Created by mono on 02/10/16.

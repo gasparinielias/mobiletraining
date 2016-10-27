@@ -9,6 +9,8 @@ import android.widget.ListView;
 
 import java.util.List;
 
+import famaf.unc.edu.ar.redditreader.backend.Backend;
+
 /**
  * A placeholder fragment containing a simple view.
  */

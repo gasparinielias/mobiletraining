@@ -12,7 +12,7 @@ public class PostModel {
     private String mPostDate;
     private String mImageURL;
 
-    public PostModel(String mTitle, String mContent, String mSubreddit, int mComments, String mPostDate, String mImageURL) {
+    public PostModel(String mTitle, String mSubreddit, int mComments, String mPostDate, String mImageURL) {
         this.mTitle = mTitle;
         this.mSubreddit = mSubreddit;
         this.mComments = mComments;
