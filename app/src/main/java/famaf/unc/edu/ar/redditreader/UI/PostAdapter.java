@@ -1,4 +1,4 @@
-package famaf.unc.edu.ar.redditreader;
+package famaf.unc.edu.ar.redditreader.UI;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +21,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.BitSet;
 import java.util.List;
+
+import famaf.unc.edu.ar.redditreader.Classes.PostModel;
+import famaf.unc.edu.ar.redditreader.R;
 
 import static famaf.unc.edu.ar.redditreader.R.plurals.comments;
 
@@ -83,29 +84,30 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
                                        post.getComments()));
         holder.postDate.setText(post.getPostDate());
         URL[] urlArr = new URL[1];
+        Log.d("TAG", post.getImageURL());
         try {
             urlArr[0] = new URL(post.getImageURL());
+
+            new DownloadImageAsyncTask(position, holder) {
+                @Override
+                protected void onPreExecute() {
+                    if (mHolder.position == mPosition) {
+                        holder.imageView.setImageBitmap(null);
+                        holder.progressBar.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                protected void onPostExecute(Bitmap bitmap) {
+                    if (mHolder.position == mPosition) {
+                        holder.progressBar.setVisibility(View.GONE);
+                        holder.imageView.setImageBitmap(bitmap);
+                    }
+                }
+            }.execute(urlArr);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Log.d("TAG", post.getImageURL());
         }
-
-        new DownloadImageAsyncTask(position, holder) {
-            @Override
-            protected void onPreExecute() {
-                if (mHolder.position == mPosition) {
-                    holder.imageView.setImageBitmap(null);
-                    holder.progressBar.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            protected void onPostExecute(Bitmap bitmap) {
-                if (mHolder.position == mPosition) {
-                    holder.progressBar.setVisibility(View.GONE);
-                    holder.imageView.setImageBitmap(bitmap);
-                }
-            }
-        }.execute(urlArr);
 
         return convertView;
     }

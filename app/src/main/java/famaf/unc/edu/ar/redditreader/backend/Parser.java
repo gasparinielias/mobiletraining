@@ -2,21 +2,20 @@ package famaf.unc.edu.ar.redditreader.backend;
 
 import android.util.JsonReader;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import famaf.unc.edu.ar.redditreader.PostModel;
+import famaf.unc.edu.ar.redditreader.Classes.Listing;
+import famaf.unc.edu.ar.redditreader.Classes.PostModel;
 
 /**
  * Created by mono on 22/10/16.
  */
 
 public class Parser {
-    private List<PostModel> mListPostModels = new ArrayList<>();
     private InputStream mIs;
 
     public Parser(InputStream is) {
@@ -33,6 +32,7 @@ public class Parser {
     }
 
     public Listing readListing(JsonReader reader) throws IOException {
+
         Listing list = null;
         reader.beginObject();
         while (reader.hasNext()) {
@@ -61,9 +61,19 @@ public class Parser {
             } else if (name.equals("children")) {
                 listPostModel = readChildren(reader);
             } else if (name.equals("after")) {
-                after = reader.nextString();
+                try {
+                    after = reader.nextString();
+                } catch (IllegalStateException e) {
+                    after = null;
+                    reader.nextNull();
+                }
             } else if (name.equals("before")) {
-                before = reader.nextString();
+                try {
+                    before = reader.nextString();
+                } catch (IllegalStateException e) {
+                    before = null;
+                    reader.nextNull();
+                }
             } else {
                 reader.skipValue();
             }
@@ -83,7 +93,22 @@ public class Parser {
         return list;
     }
 
-    public PostModel readPostModel(JsonReader reader)  throws IOException {
+    public PostModel readPostModel(JsonReader reader) throws IOException {
+        PostModel postModel = null;
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            if (name.equals("data")) {
+                postModel = readPostModelData(reader);
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+        return postModel;
+    }
+
+    public PostModel readPostModelData(JsonReader reader)  throws IOException {
         String title = "";
         String subreddit = "";
         int comments = 0;
@@ -101,6 +126,8 @@ public class Parser {
                 comments = reader.nextInt();
             } else if (name.equals("created_utc")) {
                 postDate = String.valueOf(reader.nextLong());
+            } else if (name.equals("thumbnail")) {
+                imageURL = reader.nextString();
             } else {
                 reader.skipValue();
             }

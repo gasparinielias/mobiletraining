@@ -1,4 +1,4 @@
-package famaf.unc.edu.ar.redditreader;
+package famaf.unc.edu.ar.redditreader.Classes;
 
 import java.net.URL;
 

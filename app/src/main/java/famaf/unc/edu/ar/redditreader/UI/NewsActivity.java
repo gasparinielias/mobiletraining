@@ -1,4 +1,4 @@
-package famaf.unc.edu.ar.redditreader;
+package famaf.unc.edu.ar.redditreader.UI;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,9 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.content.Intent;
 import android.widget.Toast;
+
+import famaf.unc.edu.ar.redditreader.R;
 
 public class NewsActivity extends AppCompatActivity {
     static final int LOG_IN_REQUEST = 1;

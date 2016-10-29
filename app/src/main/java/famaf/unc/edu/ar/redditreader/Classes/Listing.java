@@ -1,6 +1,6 @@
-package famaf.unc.edu.ar.redditreader;
+package famaf.unc.edu.ar.redditreader.Classes;
 
-import java.net.URL;
+import java.util.List;
 
 /**
  * Created by mono on 02/10/16.
