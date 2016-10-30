@@ -1,5 +1,6 @@
 package famaf.unc.edu.ar.redditreader.backend;
 
+import android.text.format.DateUtils;
 import android.util.JsonReader;
 
 import java.io.IOException;
@@ -112,7 +113,7 @@ public class Parser {
         String title = "";
         String subreddit = "";
         int comments = 0;
-        String postDate = "some date";
+        long postDate = 0;
         String imageURL = "";
 
         reader.beginObject();
@@ -125,7 +126,7 @@ public class Parser {
             } else if (name.equals("num_comments")) {
                 comments = reader.nextInt();
             } else if (name.equals("created_utc")) {
-                postDate = String.valueOf(reader.nextLong());
+                postDate = reader.nextLong();
             } else if (name.equals("thumbnail")) {
                 imageURL = reader.nextString();
             } else {

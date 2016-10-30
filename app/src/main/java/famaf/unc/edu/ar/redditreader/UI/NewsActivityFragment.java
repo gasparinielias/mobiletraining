@@ -30,12 +30,15 @@ public class NewsActivityFragment extends Fragment implements Listener {
         View rootView = inflater.inflate(famaf.unc.edu.ar.redditreader.R.layout.fragment_news, container, false);
         listview = (ListView) rootView.findViewById(R.id.posts_list_view);
         Backend.getInstance().setListener(this);
-        Backend.getInstance().getTopPosts();
+        Backend.getInstance().getTopPosts(this.getActivity());
         return rootView;
     }
 
+
     public void nextPosts(Listing lst) {
-        PostAdapter adapter = new PostAdapter(getContext(), R.layout.post_row, lst.getListPostModel());
-        listview.setAdapter(adapter);
+        if (lst != null) {
+            PostAdapter adapter = new PostAdapter(getContext(), R.layout.post_row, lst.getListPostModel());
+            listview.setAdapter(adapter);
+        }
     }
 }

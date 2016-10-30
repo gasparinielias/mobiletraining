@@ -9,10 +9,10 @@ public class PostModel {
     private String mTitle;
     private String mSubreddit;
     private int mComments;
-    private String mPostDate;
+    private long mPostDate;
     private String mImageURL;
 
-    public PostModel(String mTitle, String mSubreddit, int mComments, String mPostDate, String mImageURL) {
+    public PostModel(String mTitle, String mSubreddit, int mComments, long mPostDate, String mImageURL) {
         this.mTitle = mTitle;
         this.mSubreddit = mSubreddit;
         this.mComments = mComments;
@@ -44,11 +44,11 @@ public class PostModel {
         this.mComments = comments;
     }
 
-    public String getPostDate() {
+    public long getPostDate() {
         return mPostDate;
     }
 
-    public void setPostDate(String postDate) {
+    public void setPostDate(long postDate) {
         this.mPostDate = postDate;
     }
 

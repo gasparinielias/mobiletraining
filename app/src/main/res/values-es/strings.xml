@@ -22,5 +22,6 @@
     </plurals>
     <string name="title_reddit_reader">"Lector de Reddit"
     </string>
+    <string name="no_internet_connection">No fue posible conectarse a internet</string>
 
 </resources>

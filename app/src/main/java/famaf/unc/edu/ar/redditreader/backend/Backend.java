@@ -1,6 +1,7 @@
 package famaf.unc.edu.ar.redditreader.backend;
 
-import android.util.Log;
+import android.accounts.NetworkErrorException;
+import android.content.Context;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -31,16 +32,16 @@ public class Backend {
         listener = l;
     }
 
-    public List<PostModel> getTopPosts() {
+    public List<PostModel> getTopPosts(Context context) {
         try {
-            new GetTopPostsTask() {
+            new GetTopPostsTask(context) {
                 @Override
                 protected void onPostExecute(Listing lst) {
                     listener.nextPosts(lst);
                 }
             }.execute(new URL("https://www.reddit.com/top/.json"));
         } catch (MalformedURLException e) {
-            Log.d("Backend", "Malformed url");
+            e.printStackTrace();
         }
         return mListPostModel;
     }

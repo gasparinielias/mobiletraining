@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +83,12 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         holder.subreddit.setText(post.getSubreddit());
         holder.comments.setText(String.format(getContext().getResources().getQuantityString(comments, post.getComments()),
                                        post.getComments()));
-        holder.postDate.setText(post.getPostDate());
+        holder.postDate.setText(DateUtils.getRelativeDateTimeString(
+                    getContext(), post.getPostDate(),
+                    DateUtils.MINUTE_IN_MILLIS,
+                    DateUtils.DAY_IN_MILLIS,
+                    0));
+
         URL[] urlArr = new URL[1];
         Log.d("TAG", post.getImageURL());
         try {
