@@ -39,7 +39,7 @@ public class Backend {
                 protected void onPostExecute(Listing lst) {
                     listener.nextPosts(lst);
                 }
-            }.execute(new URL("https://www.reddit.com/top/.json"));
+            }.execute(new URL("https://www.reddit.com/top/.json?limit=50"));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

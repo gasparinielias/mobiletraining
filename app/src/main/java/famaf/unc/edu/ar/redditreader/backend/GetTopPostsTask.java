@@ -24,7 +24,6 @@ import static java.security.AccessController.getContext;
 public class GetTopPostsTask extends AsyncTask<URL, Integer, Listing > {
 
     private Context context;
-    private final String REDDIT_DOMAIN = "http://www.reddit.com/";
 
     public GetTopPostsTask(Context ctx) { context = ctx; }
 
