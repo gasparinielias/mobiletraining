@@ -14,6 +14,7 @@ import ar.edu.unc.famaf.redditreader.Classes.Listing;
 import ar.edu.unc.famaf.redditreader.Classes.PostModel;
 
 public class RedditDB {
+    private int RETURN_POSTS_LIMIT = 5;
 
     public void insert(Context context, List<PostModel> listPostModel) {
         RedditDBHelper helper = new RedditDBHelper(context);
@@ -125,4 +126,53 @@ public class RedditDB {
         return bitmap;
     }
 
+    public List<PostModel> getPostsAfterIndex(Context context, int postIndex) {
+        RedditDBHelper helper = new RedditDBHelper(context);
+        List<PostModel> list = new ArrayList<>();
+
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String[] projection = {
+                helper.POST_ID,
+                helper.POST_TITLE,
+                helper.POST_SUBREDDIT,
+                helper.POST_THUMBNAIL,
+                helper.THUMBNAIL_BLOB
+        };
+
+        Cursor c = db.query(
+                helper.POST_TABLE,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null,
+                String.valueOf(postIndex) + ',' +
+                        String.valueOf(RETURN_POSTS_LIMIT)
+        );
+
+        int idIndex = c.getColumnIndex(helper.POST_ID);
+        int titleIndex = c.getColumnIndex(helper.POST_TITLE);
+        int subredditIndex = c.getColumnIndex(helper.POST_SUBREDDIT);
+        int thumbnailIndex = c.getColumnIndex(helper.POST_THUMBNAIL);
+        int blobIndex = c.getColumnIndex(helper.THUMBNAIL_BLOB);
+
+        if (c.moveToFirst()) {
+            do {
+                list.add(new PostModel(
+                        c.getString(idIndex),
+                        c.getString(titleIndex),
+                        c.getString(subredditIndex),
+                        0,
+                        0,
+                        c.getString(thumbnailIndex)
+                ));
+            } while (c.moveToNext());
+        }
+
+        c.close();
+        db.close();
+
+        return list;
+    }
 }
