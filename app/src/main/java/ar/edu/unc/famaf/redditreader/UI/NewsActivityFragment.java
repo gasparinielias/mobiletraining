@@ -1,16 +1,19 @@
 package ar.edu.unc.famaf.redditreader.UI;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.unc.famaf.redditreader.Classes.EndlessScrollListener;
+import ar.edu.unc.famaf.redditreader.Classes.OnPostItemSelectedListener;
 import ar.edu.unc.famaf.redditreader.Classes.PostModel;
 import ar.edu.unc.famaf.redditreader.Classes.PostsIteratorListener;
 import ar.edu.unc.famaf.redditreader.R;
@@ -43,6 +46,15 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
         });
         postAdapter = new PostAdapter(getContext(), R.layout.post_row, list);
         listview.setAdapter(postAdapter);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Activity parentActivity = getActivity();
+                if (parentActivity instanceof OnPostItemSelectedListener) {
+                    ((OnPostItemSelectedListener) parentActivity).onPostItemPicked(list.get(position));
+                }
+            }
+        });
 
         Backend.getInstance().getNextPosts(this, this.getActivity());
         return rootView;

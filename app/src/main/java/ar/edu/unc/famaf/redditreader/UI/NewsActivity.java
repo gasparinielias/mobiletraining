@@ -11,9 +11,11 @@ import android.view.MenuItem;
 import android.content.Intent;
 import android.widget.Toast;
 
+import ar.edu.unc.famaf.redditreader.Classes.OnPostItemSelectedListener;
+import ar.edu.unc.famaf.redditreader.Classes.PostModel;
 import ar.edu.unc.famaf.redditreader.R;
 
-public class NewsActivity extends AppCompatActivity {
+public class NewsActivity extends AppCompatActivity implements OnPostItemSelectedListener {
     static final int LOG_IN_REQUEST = 1;
 
     @Override
@@ -67,5 +69,12 @@ public class NewsActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onPostItemPicked(PostModel post) {
+        Intent intent = new Intent(this, PostDetailActivity.class);
+        intent.putExtra("selectedPost", post);
+        startActivity(intent);
     }
 }

@@ -25,6 +25,11 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
+        <activity
+            android:name="ar.edu.unc.famaf.redditreader.UI.PostDetailActivity"
+            android:label="@string/title_reddit_reader"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
