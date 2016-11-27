@@ -8,18 +8,25 @@ import java.io.Serializable;
 public class PostModel implements Serializable {
     private String mName;
     private String mTitle;
+    private String mAuthor;
     private String mSubreddit;
     private int mComments;
     private long mPostDate;
-    private String mImageURL;
+    private String mThumbnailURL;
+    private String mUrl;
+    private String mPreviewURL;
 
-    public PostModel(String name, String mTitle, String mSubreddit, int mComments, long mPostDate, String mImageURL) {
+    public PostModel(String name, String title, String author, String subreddit, String url, int comments,
+                     long postDate, String thumbnailURL, String previewURL) {
         this.mName = name;
-        this.mTitle = mTitle;
-        this.mSubreddit = mSubreddit;
-        this.mComments = mComments;
-        this.mPostDate = mPostDate;
-        this.mImageURL = mImageURL;
+        this.mTitle = title;
+        this.mAuthor = author;
+        this.mSubreddit = subreddit;
+        this.mUrl = url;
+        this.mComments = comments;
+        this.mPostDate = postDate;
+        this.mThumbnailURL = thumbnailURL;
+        this.mPreviewURL = previewURL;
     }
 
     public String getName() {
@@ -62,11 +69,35 @@ public class PostModel implements Serializable {
         this.mPostDate = postDate;
     }
 
-    public String getImageURL() {
-        return mImageURL;
+    public String getThumbnailURL() {
+        return mThumbnailURL;
     }
 
-    public void setImageURL(String mImageURL) {
-        this.mImageURL = mImageURL;
+    public void setThumbnailURL(String mImageURL) {
+        this.mThumbnailURL = mImageURL;
+    }
+
+    public String getUrl() {
+        return mUrl;
+    }
+
+    public void setUrl(String url) {
+        this.mUrl = url;
+    }
+
+    public String getPreviewURL() {
+        return mPreviewURL;
+    }
+
+    public void setPreviewURL(String mPreviewURL) {
+        this.mPreviewURL = mPreviewURL;
+    }
+
+    public String getAuthor() {
+        return mAuthor;
+    }
+
+    public void setAuthor(String author) {
+        this.mAuthor = author;
     }
 }

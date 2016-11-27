@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +14,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 
 import ar.edu.unc.famaf.redditreader.Classes.BitmapByteHandler;
@@ -85,34 +84,32 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         holder.subreddit.setText(post.getSubreddit());
         holder.comments.setText(String.format(getContext().getResources().getQuantityString(comments, post.getComments()),
                                        post.getComments()));
-        holder.postDate.setText(DateUtils.getRelativeDateTimeString(
-                    getContext(), post.getPostDate(),
-                    DateUtils.MINUTE_IN_MILLIS,
-                    DateUtils.DAY_IN_MILLIS,
-                    0));
+        holder.postDate.setText(DateUtils.getRelativeTimeSpanString(
+                    post.getPostDate() * 1000,
+                    System.currentTimeMillis(),
+                    DateUtils.MINUTE_IN_MILLIS));
 
         Bitmap bitmap = new RedditDB().getPostThumbnail(getContext(), post.getName());
 
         if (bitmap == null) {
             URL[] urlArr = new URL[1];
-            Log.d("TAG", post.getImageURL());
             try {
-                urlArr[0] = new URL(post.getImageURL());
+                urlArr[0] = new URL(post.getThumbnailURL());
 
                 new DownloadImageAsyncTask(position, holder, post.getName()) {
                     @Override
                     protected void onPreExecute() {
                         if (mHolder.position == mPosition) {
-                            holder.imageView.setImageBitmap(null);
-                            holder.progressBar.setVisibility(View.VISIBLE);
+                            mHolder.imageView.setImageBitmap(null);
+                            mHolder.progressBar.setVisibility(View.VISIBLE);
                         }
                     }
 
                     @Override
                     protected void onPostExecute(Bitmap bitmap) {
                         if (mHolder.position == mPosition) {
-                            holder.progressBar.setVisibility(View.GONE);
-                            holder.imageView.setImageBitmap(bitmap);
+                            mHolder.progressBar.setVisibility(View.GONE);
+                            mHolder.imageView.setImageBitmap(bitmap);
                         }
 
                         new RedditDB().updateBytes(
@@ -123,7 +120,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
                     }
                 }.execute(urlArr);
             } catch (MalformedURLException e) {
-                Log.d("TAG", post.getImageURL());
+                e.printStackTrace();
             }
         } else {
             holder.progressBar.setVisibility(View.GONE);

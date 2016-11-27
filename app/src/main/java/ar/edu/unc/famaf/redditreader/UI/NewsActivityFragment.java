@@ -33,8 +33,10 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        /*
         RedditDB rdb = new RedditDB();
-        //rdb.cleanDatabase(getContext());
+        rdb.cleanDatabase(getContext());
+        */
         View rootView = inflater.inflate(ar.edu.unc.famaf.redditreader.R.layout.fragment_news, container, false);
         listview = (ListView) rootView.findViewById(R.id.posts_list_view);
         listview.setOnScrollListener(new EndlessScrollListener() {

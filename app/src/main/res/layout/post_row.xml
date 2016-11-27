@@ -37,7 +37,7 @@
         android:id="@+id/postdate"
         android:layout_toRightOf="@id/postsubreddit"
         android:layout_alignTop="@id/postimage"
-        android:layout_marginLeft="20dp"/>
+        android:gravity="right" />
 
     <TextView
         android:text="TextView"

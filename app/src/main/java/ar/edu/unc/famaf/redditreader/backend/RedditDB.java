@@ -25,9 +25,12 @@ public class RedditDB {
 
     public void cleanDatabase(Context context) {
         RedditDBHelper helper = new RedditDBHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        helper.onUpgrade(db, 0, 0);
         helper.clean();
     }
 
+    /*
     public Listing getAllPosts(Context context) {
         RedditDBHelper helper = new RedditDBHelper(context);
         List<PostModel> list = new ArrayList<>();
@@ -36,9 +39,12 @@ public class RedditDB {
         String[] projection = {
                 helper.POST_ID,
                 helper.POST_TITLE,
+                helper.POST_AUTHOR,
                 helper.POST_SUBREDDIT,
+                helper.POST_URL,
                 helper.POST_THUMBNAIL,
-                helper.THUMBNAIL_BLOB
+                helper.THUMBNAIL_BLOB,
+                helper.POST_PREVIEW
         };
 
         Cursor c = db.query(
@@ -53,18 +59,24 @@ public class RedditDB {
 
         int idIndex = c.getColumnIndex(helper.POST_ID);
         int titleIndex = c.getColumnIndex(helper.POST_TITLE);
+        int authorIndex = c.getColumnIndex(helper.POST_AUTHOR);
         int subredditIndex = c.getColumnIndex(helper.POST_SUBREDDIT);
+        int urlIndex = c.getColumnIndex(helper.POST_URL);
         int thumbnailIndex = c.getColumnIndex(helper.POST_THUMBNAIL);
         int blobIndex = c.getColumnIndex(helper.THUMBNAIL_BLOB);
+        int previewIndex = c.getColumnIndex(helper.POST_PREVIEW);
 
         while (c.moveToNext()) {
             list.add(new PostModel(
                     c.getString(idIndex),
                     c.getString(titleIndex),
+                    c.getString(authorIndex),
                     c.getString(subredditIndex),
+                    c.getString(urlIndex),
                     0,
                     0,
-                    c.getString(thumbnailIndex)
+                    c.getString(thumbnailIndex),
+                    c.getString(previewIndex)
             ));
         }
 
@@ -73,6 +85,7 @@ public class RedditDB {
 
         return new Listing("", list, "", "");
     }
+    */
 
     public void updateBytes(Context context, String postId, byte[] bytes) {
         RedditDBHelper helper = new RedditDBHelper(context);
@@ -134,9 +147,14 @@ public class RedditDB {
         String[] projection = {
                 helper.POST_ID,
                 helper.POST_TITLE,
+                helper.POST_AUTHOR,
                 helper.POST_SUBREDDIT,
+                helper.POST_COMMENTS,
+                helper.POST_DATE,
+                helper.POST_URL,
                 helper.POST_THUMBNAIL,
-                helper.THUMBNAIL_BLOB
+                helper.THUMBNAIL_BLOB,
+                helper.POST_PREVIEW
         };
 
         Cursor c = db.query(
@@ -153,19 +171,27 @@ public class RedditDB {
 
         int idIndex = c.getColumnIndex(helper.POST_ID);
         int titleIndex = c.getColumnIndex(helper.POST_TITLE);
+        int authorIndex = c.getColumnIndex(helper.POST_AUTHOR);
         int subredditIndex = c.getColumnIndex(helper.POST_SUBREDDIT);
+        int commentsIndex = c.getColumnIndex(helper.POST_COMMENTS);
+        int dateIndex = c.getColumnIndex(helper.POST_DATE);
+        int urlIndex = c.getColumnIndex(helper.POST_URL);
         int thumbnailIndex = c.getColumnIndex(helper.POST_THUMBNAIL);
         int blobIndex = c.getColumnIndex(helper.THUMBNAIL_BLOB);
+        int previewIndex = c.getColumnIndex(helper.POST_PREVIEW);
 
         if (c.moveToFirst()) {
             do {
                 list.add(new PostModel(
                         c.getString(idIndex),
                         c.getString(titleIndex),
+                        c.getString(authorIndex),
                         c.getString(subredditIndex),
-                        0,
-                        0,
-                        c.getString(thumbnailIndex)
+                        c.getString(urlIndex),
+                        c.getInt(commentsIndex),
+                        c.getInt(dateIndex),
+                        c.getString(thumbnailIndex),
+                        c.getString(previewIndex)
                 ));
             } while (c.moveToNext());
         }

@@ -111,10 +111,13 @@ public class Parser {
     public PostModel readPostModelData(JsonReader reader)  throws IOException {
         String post_name = "";
         String title = "";
+        String author = "";
         String subreddit = "";
+        String url = "";
         int comments = 0;
         long postDate = 0;
-        String imageURL = "";
+        String thumbnailURL = "";
+        String previewURL = null;
 
         reader.beginObject();
         while (reader.hasNext()) {
@@ -123,20 +126,62 @@ public class Parser {
                 title = reader.nextString();
             } else if (name.equals("name")) {
                 post_name = reader.nextString();
+            } else if (name.equals("author")) {
+                author = reader.nextString();
             } else if (name.equals("subreddit")) {
                 subreddit = "/r/" + reader.nextString();
+            } else if (name.equals("url")) {
+                url = reader.nextString();
             } else if (name.equals("num_comments")) {
                 comments = reader.nextInt();
             } else if (name.equals("created_utc")) {
                 postDate = reader.nextLong();
             } else if (name.equals("thumbnail")) {
-                imageURL = reader.nextString();
+                thumbnailURL = reader.nextString();
+            } else if (name.equals("preview")) {
+                previewURL = readPreviewURL(reader);
             } else {
                 reader.skipValue();
             }
         }
         reader.endObject();
-        return new PostModel(post_name, title, subreddit, comments, postDate, imageURL);
+        return new PostModel(post_name, title, author, subreddit, url, comments, postDate, thumbnailURL, previewURL);
+    }
+
+    public String readPreviewURL(JsonReader reader) throws IOException {
+        String previewURL = null;
+        reader.beginObject();
+        while (reader.hasNext()) {
+            if (reader.nextName().equals("images")) {
+                reader.beginArray();
+                while (reader.hasNext()) {
+                    reader.beginObject();
+                    while (reader.hasNext()) {
+                        String name = reader.nextName();
+                        if (name.equals("source")) {
+                            reader.beginObject();
+                            while (reader.hasNext()) {
+                                String name2 = reader.nextName();
+                                if (name2.equals("url")) {
+                                    previewURL = reader.nextString();
+                                } else {
+                                    reader.skipValue();
+                                }
+                            }
+                            reader.endObject();
+                        } else {
+                            reader.skipValue();
+                        }
+                    }
+                    reader.endObject();
+                }
+                reader.endArray();
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+        return previewURL;
     }
 
 }
