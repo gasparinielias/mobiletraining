@@ -1,4 +1,4 @@
-package ar.edu.unc.famaf.redditreader.UI;
+package ar.edu.unc.famaf.redditreader.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

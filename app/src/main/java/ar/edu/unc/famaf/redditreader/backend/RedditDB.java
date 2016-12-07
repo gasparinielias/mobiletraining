@@ -9,9 +9,8 @@ import android.graphics.Bitmap;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.unc.famaf.redditreader.Classes.BitmapByteHandler;
-import ar.edu.unc.famaf.redditreader.Classes.Listing;
-import ar.edu.unc.famaf.redditreader.Classes.PostModel;
+import ar.edu.unc.famaf.redditreader.classes.BitmapByteHandler;
+import ar.edu.unc.famaf.redditreader.classes.PostModel;
 
 public class RedditDB {
     private int RETURN_POSTS_LIMIT = 5;
@@ -89,7 +88,7 @@ public class RedditDB {
 
     public void updateBytes(Context context, String postId, byte[] bytes) {
         RedditDBHelper helper = new RedditDBHelper(context);
-        SQLiteDatabase db = helper.getReadableDatabase();
+        SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(helper.THUMBNAIL_BLOB, bytes);

@@ -1,4 +1,4 @@
-package ar.edu.unc.famaf.redditreader.UI;
+package ar.edu.unc.famaf.redditreader.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -20,11 +20,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 import java.util.List;
 
-import ar.edu.unc.famaf.redditreader.Classes.BitmapByteHandler;
-import ar.edu.unc.famaf.redditreader.Classes.PostModel;
+import ar.edu.unc.famaf.redditreader.classes.BitmapByteHandler;
+import ar.edu.unc.famaf.redditreader.classes.PostModel;
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.backend.RedditDB;
 
@@ -57,11 +56,11 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if (convertView == null) {
             LayoutInflater view = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = view.inflate(R.layout.post_row, null);
+            convertView = view.inflate(R.layout.post_row, parent, false);
         }
         if (convertView.getTag() == null) {
             holder = new ViewHolder();
@@ -78,7 +77,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         }
         holder.position = position;
 
-        PostModel post = mListPostModel.get(position);
+        PostModel post = getItem(position);
 
         holder.title.setText(post.getTitle());
         holder.subreddit.setText(post.getSubreddit());

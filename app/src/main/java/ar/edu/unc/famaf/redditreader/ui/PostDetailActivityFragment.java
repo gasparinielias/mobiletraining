@@ -1,4 +1,4 @@
-package ar.edu.unc.famaf.redditreader.UI;
+package ar.edu.unc.famaf.redditreader.ui;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -25,7 +25,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import ar.edu.unc.famaf.redditreader.Classes.PostModel;
+import ar.edu.unc.famaf.redditreader.classes.PostModel;
 import ar.edu.unc.famaf.redditreader.R;
 
 /**

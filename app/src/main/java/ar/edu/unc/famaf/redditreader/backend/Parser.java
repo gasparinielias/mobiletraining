@@ -1,6 +1,7 @@
 package ar.edu.unc.famaf.redditreader.backend;
 
 import android.util.JsonReader;
+import android.util.JsonToken;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,8 +9,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.unc.famaf.redditreader.Classes.Listing;
-import ar.edu.unc.famaf.redditreader.Classes.PostModel;
+import ar.edu.unc.famaf.redditreader.classes.Listing;
+import ar.edu.unc.famaf.redditreader.classes.PostModel;
 
 /**
  * Created by mono on 22/10/16.
@@ -50,32 +51,36 @@ public class Parser {
     public Listing readListingData(JsonReader reader) throws IOException {
         String modhash = "";
         List<PostModel> listPostModel = null;
-        String after = "";
-        String before = "";
+        String after = null;
+        String before = null;
 
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("modhash")) {
-                modhash = reader.nextString();
-            } else if (name.equals("children")) {
-                listPostModel = readChildren(reader);
-            } else if (name.equals("after")) {
-                try {
-                    after = reader.nextString();
-                } catch (IllegalStateException e) {
-                    after = null;
-                    reader.nextNull();
-                }
-            } else if (name.equals("before")) {
-                try {
-                    before = reader.nextString();
-                } catch (IllegalStateException e) {
-                    before = null;
-                    reader.nextNull();
-                }
-            } else {
-                reader.skipValue();
+            switch (name) {
+                case "modhash":
+                    modhash = reader.nextString();
+                    break;
+                case "children":
+                    listPostModel = readChildren(reader);
+                    break;
+                case "after":
+                    if (reader.peek() != JsonToken.NULL) {
+                        after = reader.nextString();
+                    } else {
+                        reader.nextNull();
+                    }
+                    break;
+                case "before":
+                    if (reader.peek() != JsonToken.NULL) {
+                        before = reader.nextString();
+                    } else {
+                        reader.nextNull();
+                    }
+                    break;
+                default:
+                    reader.skipValue();
+                    break;
             }
         }
         reader.endObject();
@@ -122,26 +127,37 @@ public class Parser {
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("title")) {
-                title = reader.nextString();
-            } else if (name.equals("name")) {
-                post_name = reader.nextString();
-            } else if (name.equals("author")) {
-                author = reader.nextString();
-            } else if (name.equals("subreddit")) {
-                subreddit = "/r/" + reader.nextString();
-            } else if (name.equals("url")) {
-                url = reader.nextString();
-            } else if (name.equals("num_comments")) {
-                comments = reader.nextInt();
-            } else if (name.equals("created_utc")) {
-                postDate = reader.nextLong();
-            } else if (name.equals("thumbnail")) {
-                thumbnailURL = reader.nextString();
-            } else if (name.equals("preview")) {
-                previewURL = readPreviewURL(reader);
-            } else {
-                reader.skipValue();
+            switch (name) {
+                case "title":
+                    title = reader.nextString();
+                    break;
+                case "name":
+                    post_name = reader.nextString();
+                    break;
+                case "author":
+                    author = reader.nextString();
+                    break;
+                case "subreddit":
+                    subreddit = "/r/" + reader.nextString();
+                    break;
+                case "url":
+                    url = reader.nextString();
+                    break;
+                case "num_comments":
+                    comments = reader.nextInt();
+                    break;
+                case "created_utc":
+                    postDate = reader.nextLong();
+                    break;
+                case "thumbnail":
+                    thumbnailURL = reader.nextString();
+                    break;
+                case "preview":
+                    previewURL = readPreviewURL(reader);
+                    break;
+                default:
+                    reader.skipValue();
+                    break;
             }
         }
         reader.endObject();

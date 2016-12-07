@@ -1,4 +1,4 @@
-package ar.edu.unc.famaf.redditreader.Classes;
+package ar.edu.unc.famaf.redditreader.classes;
 
 import java.util.List;
 

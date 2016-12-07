@@ -1,4 +1,4 @@
-package ar.edu.unc.famaf.redditreader.Classes;
+package ar.edu.unc.famaf.redditreader.classes;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,7 +13,7 @@ public class BitmapByteHandler {
     public static byte[] getBytes(Bitmap bitmap) {
         if (bitmap != null) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 0, stream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             return stream.toByteArray();
         }
         return null;

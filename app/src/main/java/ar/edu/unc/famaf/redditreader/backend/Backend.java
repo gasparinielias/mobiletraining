@@ -9,9 +9,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import ar.edu.unc.famaf.redditreader.Classes.Listing;
-import ar.edu.unc.famaf.redditreader.Classes.PostModel;
-import ar.edu.unc.famaf.redditreader.Classes.PostsIteratorListener;
+import ar.edu.unc.famaf.redditreader.classes.Listing;
+import ar.edu.unc.famaf.redditreader.classes.PostModel;
+import ar.edu.unc.famaf.redditreader.classes.PostsIteratorListener;
 
 /**
  * Created by mono on 02/10/16.
@@ -42,7 +42,9 @@ public class Backend {
                             if (listing != null) {
                                 rdb.insert(context, listing.getListPostModel());
                                 postAfter = listing.getAfter();
-                                listener.nextPosts(rdb.getPostsAfterIndex(context, postIndex));
+                                List<PostModel> list = rdb.getPostsAfterIndex(context, postIndex);
+                                postIndex += list.size();
+                                listener.nextPosts(list);
                             } else {
                                 // Error downloading posts
                             }

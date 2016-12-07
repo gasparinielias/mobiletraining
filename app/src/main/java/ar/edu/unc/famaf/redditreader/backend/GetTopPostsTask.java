@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import ar.edu.unc.famaf.redditreader.Classes.Listing;
+import ar.edu.unc.famaf.redditreader.classes.Listing;
 
 /**
  * Created by mono on 22/10/16.

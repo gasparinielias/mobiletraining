@@ -1,4 +1,4 @@
-package ar.edu.unc.famaf.redditreader.UI;
+package ar.edu.unc.famaf.redditreader.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,8 +11,8 @@ import android.view.MenuItem;
 import android.content.Intent;
 import android.widget.Toast;
 
-import ar.edu.unc.famaf.redditreader.Classes.OnPostItemSelectedListener;
-import ar.edu.unc.famaf.redditreader.Classes.PostModel;
+import ar.edu.unc.famaf.redditreader.classes.OnPostItemSelectedListener;
+import ar.edu.unc.famaf.redditreader.classes.PostModel;
 import ar.edu.unc.famaf.redditreader.R;
 
 public class NewsActivity extends AppCompatActivity implements OnPostItemSelectedListener {

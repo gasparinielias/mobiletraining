@@ -13,8 +13,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import ar.edu.unc.famaf.redditreader.Classes.BitmapByteHandler;
-import ar.edu.unc.famaf.redditreader.Classes.PostModel;
+import ar.edu.unc.famaf.redditreader.classes.BitmapByteHandler;
+import ar.edu.unc.famaf.redditreader.classes.PostModel;
 
 /**
  * Created by mono on 19/11/16.

@@ -1,4 +1,4 @@
-package ar.edu.unc.famaf.redditreader.UI;
+package ar.edu.unc.famaf.redditreader.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,13 +12,13 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.unc.famaf.redditreader.Classes.EndlessScrollListener;
-import ar.edu.unc.famaf.redditreader.Classes.OnPostItemSelectedListener;
-import ar.edu.unc.famaf.redditreader.Classes.PostModel;
-import ar.edu.unc.famaf.redditreader.Classes.PostsIteratorListener;
+import ar.edu.unc.famaf.redditreader.backend.RedditDB;
+import ar.edu.unc.famaf.redditreader.classes.EndlessScrollListener;
+import ar.edu.unc.famaf.redditreader.classes.OnPostItemSelectedListener;
+import ar.edu.unc.famaf.redditreader.classes.PostModel;
+import ar.edu.unc.famaf.redditreader.classes.PostsIteratorListener;
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.backend.Backend;
-import ar.edu.unc.famaf.redditreader.backend.RedditDB;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -33,10 +33,8 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        /*
         RedditDB rdb = new RedditDB();
         rdb.cleanDatabase(getContext());
-        */
         View rootView = inflater.inflate(ar.edu.unc.famaf.redditreader.R.layout.fragment_news, container, false);
         listview = (ListView) rootView.findViewById(R.id.posts_list_view);
         listview.setOnScrollListener(new EndlessScrollListener() {
