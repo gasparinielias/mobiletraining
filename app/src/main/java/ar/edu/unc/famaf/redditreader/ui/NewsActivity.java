@@ -3,12 +3,19 @@ package ar.edu.unc.famaf.redditreader.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.content.Intent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import ar.edu.unc.famaf.redditreader.classes.OnPostItemSelectedListener;
@@ -17,6 +24,9 @@ import ar.edu.unc.famaf.redditreader.R;
 
 public class NewsActivity extends AppCompatActivity implements OnPostItemSelectedListener {
     static final int LOG_IN_REQUEST = 1;
+    private String[] mSubreddits;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +34,7 @@ public class NewsActivity extends AppCompatActivity implements OnPostItemSelecte
         setContentView(ar.edu.unc.famaf.redditreader.R.layout.activity_news);
         Toolbar toolbar = (Toolbar) findViewById(ar.edu.unc.famaf.redditreader.R.id.toolbar);
         setSupportActionBar(toolbar);
+        initializeDrawer();
     }
 
     @Override
@@ -71,10 +82,36 @@ public class NewsActivity extends AppCompatActivity implements OnPostItemSelecte
         }
     }
 
+    public void initializeDrawer() {
+        // Set the adapter for the list view
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mSubreddits = getResources().getStringArray(R.array.subreddits_array);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, mSubreddits);
+        mDrawerList.setAdapter(adapter);
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+    }
+
     @Override
     public void onPostItemPicked(PostModel post) {
         Intent intent = new Intent(this, PostDetailActivity.class);
         intent.putExtra("selectedPost", post);
         startActivity(intent);
+    }
+
+    protected class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            NewsActivityFragment fragment = (NewsActivityFragment) (fragmentManager.findFragmentById(R.id.fragment));
+            fragment.changeSubreddit(position);
+
+            mDrawerList.setItemChecked(position, true);
+            setTitle(mSubreddits[position]);
+            mDrawerLayout.closeDrawer(mDrawerList);
+        }
     }
 }

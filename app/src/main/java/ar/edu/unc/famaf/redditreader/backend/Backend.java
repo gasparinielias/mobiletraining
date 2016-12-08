@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.classes.Listing;
 import ar.edu.unc.famaf.redditreader.classes.PostModel;
 import ar.edu.unc.famaf.redditreader.classes.PostsIteratorListener;
@@ -18,7 +19,9 @@ import ar.edu.unc.famaf.redditreader.classes.PostsIteratorListener;
  */
 public class Backend {
     private static Backend backendInstance = new Backend();
+
     private int postIndex = 0;
+    private int mSubredditIndex = 0;
     private String postAfter = "";
 
     public static Backend getInstance() {
@@ -34,6 +37,7 @@ public class Backend {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
             NetworkInfo ni = cm.getActiveNetworkInfo();
             if (ni != null && ni.isConnected()) {
+                String[] subreddits = context.getResources().getStringArray(R.array.subreddits_array);
                 try {
                     new GetTopPostsTask(context) {
                         @Override
@@ -49,7 +53,10 @@ public class Backend {
                                 // Error downloading posts
                             }
                         }
-                    }.execute(new URL("https://www.reddit.com/top/.json?limit=50&after=" + postAfter));
+                    }.execute(new URL("https://www.reddit.com/"
+                            + subreddits[mSubredditIndex].toLowerCase()
+                            + "/.json?limit=50&after=" + postAfter));
+
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -65,6 +72,12 @@ public class Backend {
             postIndex += list.size();
             listener.nextPosts(list);
         }
+    }
+
+    public void setSubredditIndex(int subredditIndex, Context context) {
+        mSubredditIndex = subredditIndex;
+        RedditDB rdb = new RedditDB();
+        rdb.cleanDatabase(context);
     }
 
 }

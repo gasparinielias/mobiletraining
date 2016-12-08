@@ -88,6 +88,9 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
                     System.currentTimeMillis(),
                     DateUtils.MINUTE_IN_MILLIS));
 
+        holder.imageView.setImageBitmap(null);
+        holder.progressBar.setVisibility(View.VISIBLE);
+
         Bitmap bitmap = new RedditDB().getPostThumbnail(getContext(), post.getName());
 
         if (bitmap == null) {
@@ -96,14 +99,6 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
                 urlArr[0] = new URL(post.getThumbnailURL());
 
                 new DownloadImageAsyncTask(position, holder, post.getName()) {
-                    @Override
-                    protected void onPreExecute() {
-                        if (mHolder.position == mPosition) {
-                            mHolder.imageView.setImageBitmap(null);
-                            mHolder.progressBar.setVisibility(View.VISIBLE);
-                        }
-                    }
-
                     @Override
                     protected void onPostExecute(Bitmap bitmap) {
                         if (mHolder.position == mPosition) {
@@ -119,7 +114,8 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
                     }
                 }.execute(urlArr);
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+                holder.progressBar.setVisibility(View.GONE);
+                holder.imageView.setImageResource(R.mipmap.ic_launcher);
             }
         } else {
             holder.progressBar.setVisibility(View.GONE);

@@ -1,0 +1,6 @@
+<TextView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="27dp"
+    android:layout_toRightOf="@+id/radio"
+    android:layout_marginLeft="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

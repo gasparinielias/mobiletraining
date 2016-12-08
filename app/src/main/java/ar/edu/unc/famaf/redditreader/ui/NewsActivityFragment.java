@@ -24,10 +24,10 @@ import ar.edu.unc.famaf.redditreader.backend.Backend;
  * A placeholder fragment containing a simple view.
  */
 public class NewsActivityFragment extends Fragment implements PostsIteratorListener {
-
     private ListView listview;
     private PostAdapter postAdapter;
     private List<PostModel> list = new ArrayList<>();
+
     public NewsActivityFragment() { }
 
     @Override
@@ -35,6 +35,7 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
                              Bundle savedInstanceState) {
         RedditDB rdb = new RedditDB();
         rdb.cleanDatabase(getContext());
+
         View rootView = inflater.inflate(ar.edu.unc.famaf.redditreader.R.layout.fragment_news, container, false);
         listview = (ListView) rootView.findViewById(R.id.posts_list_view);
         listview.setOnScrollListener(new EndlessScrollListener() {
@@ -64,6 +65,18 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
     public void nextPosts(List<PostModel> list) {
         this.list.addAll(list);
         postAdapter.notifyDataSetChanged();
+    }
+
+    public void clearPosts() {
+        list.clear();
+        postAdapter.notifyDataSetChanged();
+    }
+
+    public void changeSubreddit(int subreddit_index) {
+        clearPosts();
+        Backend instance = Backend.getInstance();
+        instance.setSubredditIndex(subreddit_index, getContext());
+        instance.getNextPosts(this, this.getActivity());
     }
 
 }
