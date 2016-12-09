@@ -17,6 +17,7 @@ class RedditDBHelper extends SQLiteOpenHelper {
     public static final String POST_TITLE = "title";
     public static final String POST_AUTHOR = "author";
     public static final String POST_SUBREDDIT = "subreddit";
+    public static final String POST_TAB = "tab";
     public static final String POST_COMMENTS = "comments";
     public static final String POST_DATE = "date";
     public static final String POST_URL = "url";
@@ -32,16 +33,18 @@ class RedditDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createSentence = "create table "
                 + POST_TABLE + " ("
-                + POST_ID + " primary key, "
+                + POST_ID + " int, "
                 + POST_TITLE + " text not null, "
                 + POST_AUTHOR + " text not null, "
                 + POST_SUBREDDIT + " text not null, "
+                + POST_TAB + " int, "
                 + POST_COMMENTS + " int, "
                 + POST_DATE + " int, "
                 + POST_URL + " text, "
                 + POST_THUMBNAIL + " text not null, "
                 + POST_PREVIEW + " text, "
-                + THUMBNAIL_BLOB + " BLOB"
+                + THUMBNAIL_BLOB + " BLOB, "
+                + "primary key(" + POST_ID + ", " + POST_TAB + ")"
                 + ");";
         db.execSQL(createSentence);
         Log.d("DB", "Database Create");
@@ -54,7 +57,7 @@ class RedditDBHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    public void insert(PostModel postModel) {
+    public void insert(PostModel postModel, int subredditIndex) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(POST_ID, postModel.getName());
@@ -66,6 +69,8 @@ class RedditDBHelper extends SQLiteOpenHelper {
         values.put(POST_URL, postModel.getUrl());
         values.put(POST_THUMBNAIL, postModel.getThumbnailURL());
         values.put(POST_PREVIEW, postModel.getPreviewURL());
+        values.put(POST_TAB, subredditIndex);
+
         db.insert(POST_TABLE, null, values);
         db.close();
     }

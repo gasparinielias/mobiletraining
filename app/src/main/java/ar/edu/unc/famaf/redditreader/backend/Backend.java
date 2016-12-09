@@ -20,8 +20,8 @@ import ar.edu.unc.famaf.redditreader.classes.PostsIteratorListener;
 public class Backend {
     private static Backend backendInstance = new Backend();
 
-    private int postIndex = 0;
-    private int mSubredditIndex = 0;
+    private int mPostIndex = 0;
+    private int mTabIndex = 0;
     private String postAfter = "";
 
     public static Backend getInstance() {
@@ -32,7 +32,7 @@ public class Backend {
 
     public void getNextPosts(final PostsIteratorListener listener, final Context context) {
         RedditDB rdb = new RedditDB();
-        List<PostModel> list = rdb.getPostsAfterIndex(context, postIndex);
+        List<PostModel> list = rdb.getPostsAfterIndex(context, mPostIndex, mTabIndex);
         if (list.size() == 0) {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
             NetworkInfo ni = cm.getActiveNetworkInfo();
@@ -44,17 +44,17 @@ public class Backend {
                         protected void onPostExecute(Listing listing) {
                             RedditDB rdb = new RedditDB();
                             if (listing != null) {
-                                rdb.insert(context, listing.getListPostModel());
+                                rdb.insert(context, listing.getListPostModel(), mTabIndex);
                                 postAfter = listing.getAfter();
-                                List<PostModel> list = rdb.getPostsAfterIndex(context, postIndex);
-                                postIndex += list.size();
+                                List<PostModel> list = rdb.getPostsAfterIndex(context, mPostIndex, mTabIndex);
+                                mPostIndex += list.size();
                                 listener.nextPosts(list);
                             } else {
                                 // Error downloading posts
                             }
                         }
                     }.execute(new URL("https://www.reddit.com/"
-                            + subreddits[mSubredditIndex].toLowerCase()
+                            + subreddits[mTabIndex].toLowerCase()
                             + "/.json?limit=50&after=" + postAfter));
 
                 } catch (MalformedURLException e) {
@@ -69,15 +69,18 @@ public class Backend {
                 });
             }
         } else {
-            postIndex += list.size();
+            mPostIndex += list.size();
             listener.nextPosts(list);
         }
     }
 
     public void setSubredditIndex(int subredditIndex, Context context) {
-        mSubredditIndex = subredditIndex;
+        mTabIndex = subredditIndex;
+        mPostIndex = 0;
+        /*
         RedditDB rdb = new RedditDB();
         rdb.cleanDatabase(context);
+        */
     }
 
 }

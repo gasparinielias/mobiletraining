@@ -15,10 +15,10 @@ import ar.edu.unc.famaf.redditreader.classes.PostModel;
 public class RedditDB {
     private int RETURN_POSTS_LIMIT = 5;
 
-    public void insert(Context context, List<PostModel> listPostModel) {
+    public void insert(Context context, List<PostModel> listPostModel, int subredditIndex) {
         RedditDBHelper helper = new RedditDBHelper(context);
         for (int i = 0; i < listPostModel.size(); i++) {
-            helper.insert(listPostModel.get(i));
+            helper.insert(listPostModel.get(i), subredditIndex);
         }
     }
 
@@ -138,7 +138,7 @@ public class RedditDB {
         return bitmap;
     }
 
-    public List<PostModel> getPostsAfterIndex(Context context, int postIndex) {
+    public List<PostModel> getPostsAfterIndex(Context context, int postIndex, int tabIndex) {
         RedditDBHelper helper = new RedditDBHelper(context);
         List<PostModel> list = new ArrayList<>();
 
@@ -152,15 +152,17 @@ public class RedditDB {
                 helper.POST_DATE,
                 helper.POST_URL,
                 helper.POST_THUMBNAIL,
-                helper.THUMBNAIL_BLOB,
                 helper.POST_PREVIEW
         };
+        String selection = helper.POST_TAB + " = ?";
+        String[] selectionArgs = new String[1];
+        selectionArgs[0] = String.valueOf(tabIndex);
 
         Cursor c = db.query(
                 helper.POST_TABLE,
                 projection,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null,
                 null,
                 null,
@@ -176,7 +178,6 @@ public class RedditDB {
         int dateIndex = c.getColumnIndex(helper.POST_DATE);
         int urlIndex = c.getColumnIndex(helper.POST_URL);
         int thumbnailIndex = c.getColumnIndex(helper.POST_THUMBNAIL);
-        int blobIndex = c.getColumnIndex(helper.THUMBNAIL_BLOB);
         int previewIndex = c.getColumnIndex(helper.POST_PREVIEW);
 
         if (c.moveToFirst()) {

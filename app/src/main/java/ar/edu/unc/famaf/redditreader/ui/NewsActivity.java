@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import ar.edu.unc.famaf.redditreader.backend.RedditDB;
 import ar.edu.unc.famaf.redditreader.classes.OnPostItemSelectedListener;
 import ar.edu.unc.famaf.redditreader.classes.PostModel;
 import ar.edu.unc.famaf.redditreader.R;
@@ -30,10 +32,17 @@ public class NewsActivity extends AppCompatActivity implements OnPostItemSelecte
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        /*
+        RedditDB rdb = new RedditDB();
+        rdb.cleanDatabase(this);
+        */
+
         super.onCreate(savedInstanceState);
         setContentView(ar.edu.unc.famaf.redditreader.R.layout.activity_news);
         Toolbar toolbar = (Toolbar) findViewById(ar.edu.unc.famaf.redditreader.R.id.toolbar);
         setSupportActionBar(toolbar);
+
         initializeDrawer();
     }
 
@@ -42,6 +51,15 @@ public class NewsActivity extends AppCompatActivity implements OnPostItemSelecte
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(ar.edu.unc.famaf.redditreader.R.menu.menu_news, menu);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -82,6 +100,13 @@ public class NewsActivity extends AppCompatActivity implements OnPostItemSelecte
         }
     }
 
+    @Override
+    public void onPostItemPicked(PostModel post) {
+        Intent intent = new Intent(this, PostDetailActivity.class);
+        intent.putExtra("selectedPost", post);
+        startActivity(intent);
+    }
+
     public void initializeDrawer() {
         // Set the adapter for the list view
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -91,15 +116,10 @@ public class NewsActivity extends AppCompatActivity implements OnPostItemSelecte
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, mSubreddits);
         mDrawerList.setAdapter(adapter);
+        setSelectedItem(0);
+
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-    }
-
-    @Override
-    public void onPostItemPicked(PostModel post) {
-        Intent intent = new Intent(this, PostDetailActivity.class);
-        intent.putExtra("selectedPost", post);
-        startActivity(intent);
     }
 
     protected class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -109,9 +129,13 @@ public class NewsActivity extends AppCompatActivity implements OnPostItemSelecte
             NewsActivityFragment fragment = (NewsActivityFragment) (fragmentManager.findFragmentById(R.id.fragment));
             fragment.changeSubreddit(position);
 
-            mDrawerList.setItemChecked(position, true);
-            setTitle(mSubreddits[position]);
+            setSelectedItem(position);
             mDrawerLayout.closeDrawer(mDrawerList);
         }
+    }
+
+    private void setSelectedItem(int position) {
+        mDrawerList.setItemChecked(position, true);
+        setTitle(mSubreddits[position]);
     }
 }

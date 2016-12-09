@@ -3,4 +3,5 @@
     android:textSize="27dp"
     android:layout_toRightOf="@+id/radio"
     android:layout_marginLeft="5dp"
+    android:background="?android:attr/activatedBackgroundIndicator"
     xmlns:android="http://schemas.android.com/apk/res/android" />
