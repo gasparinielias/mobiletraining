@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,22 +23,25 @@ public class Backend {
 
     private int mPostIndex = 0;
     private int mTabIndex = 0;
-    private String postAfter = "";
+    private String[] mPostAfter = null;
 
     public static Backend getInstance() {
         return backendInstance;
     }
 
-    private Backend() { }
+    private Backend() {
+    }
 
     public void getNextPosts(final PostsIteratorListener listener, final Context context) {
+        if (mPostAfter == null) initMPostAfter(context);
+
         RedditDB rdb = new RedditDB();
         List<PostModel> list = rdb.getPostsAfterIndex(context, mPostIndex, mTabIndex);
         if (list.size() == 0) {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
             NetworkInfo ni = cm.getActiveNetworkInfo();
             if (ni != null && ni.isConnected()) {
-                String[] subreddits = context.getResources().getStringArray(R.array.subreddits_array);
+                String[] subreddits = context.getResources().getStringArray(R.array.subreddit_uris);
                 try {
                     new GetTopPostsTask(context) {
                         @Override
@@ -45,7 +49,7 @@ public class Backend {
                             RedditDB rdb = new RedditDB();
                             if (listing != null) {
                                 rdb.insert(context, listing.getListPostModel(), mTabIndex);
-                                postAfter = listing.getAfter();
+                                mPostAfter[mTabIndex] = listing.getAfter();
                                 List<PostModel> list = rdb.getPostsAfterIndex(context, mPostIndex, mTabIndex);
                                 mPostIndex += list.size();
                                 listener.nextPosts(list);
@@ -54,8 +58,8 @@ public class Backend {
                             }
                         }
                     }.execute(new URL("https://www.reddit.com/"
-                            + subreddits[mTabIndex].toLowerCase()
-                            + "/.json?limit=50&after=" + postAfter));
+                            + subreddits[mTabIndex]
+                            + "/.json?limit=50&after=" + mPostAfter[mTabIndex]));
 
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -83,4 +87,11 @@ public class Backend {
         */
     }
 
+    private void initMPostAfter(Context context) {
+        String[] subreddits = context.getResources().getStringArray(R.array.subreddit_uris);
+        mPostAfter = new String[subreddits.length];
+        for (int i = 0; i < subreddits.length; i++) {
+            mPostAfter[i] = "";
+        }
+    }
 }

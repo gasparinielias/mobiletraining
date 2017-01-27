@@ -23,10 +23,15 @@
     <string name="title_reddit_reader">"Reddit Reader"
     </string>
     <string name="no_internet_connection">No internet connection</string>
-    <string-array name="subreddits_array">
-        <item>Hot</item>
-        <item>New</item>
+    <string-array name="subreddit_names">
+        <item>Hot!</item>
+        <item>New!</item>
         <item>Top</item>
+    </string-array>
+    <string-array name="subreddit_uris">
+        <item>hot</item>
+        <item>new</item>
+        <item>top</item>
     </string-array>
 
 
