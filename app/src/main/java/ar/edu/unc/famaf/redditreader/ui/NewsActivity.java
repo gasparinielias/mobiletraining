@@ -32,8 +32,10 @@ public class NewsActivity extends AppCompatActivity implements OnPostItemSelecte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        /*
         RedditDB rdb = new RedditDB();
         rdb.cleanDatabase(this);
+        */
 
         super.onCreate(savedInstanceState);
         setContentView(ar.edu.unc.famaf.redditreader.R.layout.activity_news);
